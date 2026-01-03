@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoSort - AI Waste Classifier</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-success">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <i class="fas fa-leaf me-2"></i>EcoSort AI
+        </a>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h1 class="mb-4">Waste Classification System</h1>
+            <p class="lead mb-5">Upload an image or use your camera to identify waste type.</p>
+            
+            <!-- Analysis Section -->
+            <div class="card shadow-lg mb-5">
+                <div class="card-body p-4">
+                    
+                    <!-- Tabs -->
+                    <ul class="nav nav-pills nav-fill mb-4" id="inputTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="upload-tab" data-bs-toggle="tab" data-bs-target="#upload" type="button">
+                                <i class="fas fa-upload me-2"></i>Upload Image
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="camera-tab" data-bs-toggle="tab" data-bs-target="#camera" type="button" onclick="startCamera()">
+                                <i class="fas fa-camera me-2"></i>Use Camera
+                            </button>
+                        </li>
+                    </ul>
+
+                    <!-- Tab Content -->
+                    <div class="tab-content" id="myTabContent">
+                        
+                        <!-- File Upload -->
+                        <div class="tab-pane fade show active" id="upload">
+                            <div class="upload-area p-5 border border-2 border-dashed rounded bg-light" id="dropZone">
+                                <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-3"></i>
+                                <h5>Drag & Drop or Click to Upload</h5>
+                                <input type="file" id="fileInput" class="d-none" accept="image/*">
+                                <button class="btn btn-success mt-3" onclick="document.getElementById('fileInput').click()">Select File</button>
+                            </div>
+                        </div>
+
+                        <!-- Camera -->
+                        <div class="tab-pane fade" id="camera">
+                            <div class="position-relative">
+                                <video id="video" class="w-100 rounded" autoplay playsinline></video>
+                                <canvas id="canvas" class="d-none"></canvas>
+                                <button id="captureBtn" class="btn btn-primary position-absolute bottom-0 start-50 translate-middle-x mb-3">
+                                    <i class="fas fa-camera"></i> Capture
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Preview & Loading -->
+                    <div id="previewSection" class="mt-4 d-none">
+                        <img id="imagePreview" src="" class="img-fluid rounded shadow-sm" style="max-height: 300px;">
+                        <div id="loadingSpinner" class="mt-3 d-none">
+                            <div class="spinner-border text-success" role="status"></div>
+                            <p class="mt-2 text-muted">Analyzing waste type...</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div id="resultsSection" class="d-none fade-in">
+                <div class="card shadow border-success">
+                    <div class="card-header bg-success text-white">
+                        <h4 class="mb-0">Analysis Report</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <div id="topPrediction" class="text-center p-3 rounded bg-light">
+                                    <h2 class="text-success fw-bold display-4 mb-0" id="mainLabel">Plastic</h2>
+                                    <p class="text-muted">Confidence: <span id="mainScore">98%</span></p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="mb-3">Top Matches</h5>
+                                <div id="predictionsList" class="list-group">
+                                    <!-- Populated by JS -->
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <button class="btn btn-outline-dark" onclick="downloadReport()">
+                            <i class="fas fa-file-pdf me-2"></i>Download PDF Report
+                        </button>
+                        <button class="btn btn-success ms-2" onclick="location.reload()">
+                            <i class="fas fa-redo me-2"></i>Analyze Another
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
