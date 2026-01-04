@@ -3,7 +3,6 @@ import time
 import numpy as np
 from fpdf import FPDF
 from PIL import Image
-from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 
 # Correct class order matching training
@@ -11,10 +10,18 @@ CLASSES = ['cardboard', 'glass', 'metal', 'paper', 'plastic', 'trash']
 
 class ModelHandler:
     def __init__(self):
-        self.model = load_model('model/waste_model.h5')
-        print("✅ Real model loaded")
+        self.model = None  # Don't load at startup
+
+    def load_model_if_needed(self):
+        if self.model is None:
+            from tensorflow.keras.models import load_model
+            self.model = load_model('model/waste_model.h5')
+            print("✅ Real model loaded")
 
     def predict(self, image_path):
+        # Load model if not loaded yet
+        self.load_model_if_needed()
+
         # Load image
         img = image.load_img(image_path, target_size=(128, 128))
         img_array = image.img_to_array(img) / 255.0
@@ -33,6 +40,7 @@ class ModelHandler:
         # Simulate processing time (optional)
         time.sleep(0.5)
         return top_preds
+
 
 def generate_pdf_report(image_path, predictions):
     pdf = FPDF()
