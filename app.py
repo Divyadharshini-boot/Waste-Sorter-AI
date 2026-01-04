@@ -1,4 +1,7 @@
+
 import os
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+
 from flask import Flask, render_template, request, jsonify, send_file, url_for
 from werkzeug.utils import secure_filename
 from utils import ModelHandler, generate_pdf_report
