@@ -1,6 +1,49 @@
-node_modules
-dist
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.db
+
+# Virtual environment
+venv/
+.env
+.env.*
+
+# Logs
+*.log
+
+# OS files
 .DS_Store
-server/public
-vite.config.ts.*
+Thumbs.db
+
+# IDE / Editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Node / frontend files
+node_modules/
+dist/
 *.tar.gz
+package-lock.json
+yarn.lock
+
+# TensorFlow / Keras model weights (optional if too big)
+*.h5
+*.keras
+
+# Flask uploads
+instance/
+*.sqlite
+
+# Replit files
+.replit
+*.lock
+
+# Others
+*.zip
+*.tar
+*.gz
